@@ -53,7 +53,7 @@ const Main = ({
           &#10146;
         </button>
       </div>
-      <p className="mb-5 text-center mx-2">
+      <p className="mb-5 text-sm text-center mx-2">
         Free Research Preview. MessageAI is an AI chat app built with the OpenAI
         API. Checkout ChatGPT May 12 Version
       </p>
