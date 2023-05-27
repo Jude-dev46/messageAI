@@ -5,10 +5,8 @@ import { useSelector, useDispatch } from "react-redux";
 import Auth from "./components/Auth";
 import { uiActions } from "./store/uislice";
 import Notification from "./components/Notification";
-import { Detector } from "react-detect-offline";
-import { message } from "antd";
 
-let info = message;
+import OfflineDetector from "./components/OfflineDetector";
 
 function App() {
   const dispatch = useDispatch();
@@ -104,15 +102,7 @@ function App() {
   return (
     <div className="flex">
       <div className="hidden">
-        <Detector
-          render={({ online }) => (
-            <div>
-              {online
-                ? `${info.success("Connected!")}`
-                : `${info.error("Please connect to the internet")}`}
-            </div>
-          )}
-        />
+        <OfflineDetector />
       </div>
       {notification && (
         <Notification

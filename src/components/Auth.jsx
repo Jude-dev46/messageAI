@@ -2,7 +2,7 @@ import { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/auth";
 
-const Auth = ({ online }) => {
+const Auth = () => {
   const emailInputRef = useRef(null);
   const passwordInputRef = useRef(null);
   const dispatch = useDispatch();
@@ -52,10 +52,7 @@ const Auth = ({ online }) => {
             required
           />
         </div>
-        <button
-          className="bg-white text-slate-950 px-5 py-2 rounded-md hover:bg-slate-800 hover:text-white"
-          // disabled={!online}
-        >
+        <button className="bg-white text-slate-950 px-5 py-2 rounded-md hover:bg-slate-800 hover:text-white">
           Login
         </button>
       </form>

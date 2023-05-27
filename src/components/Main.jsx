@@ -10,7 +10,7 @@ const Main = ({
   online,
 }) => {
   return (
-    <div className="w-full h-screen flex flex-col justify-between items-center">
+    <div className="relative w-full h-screen flex flex-col justify-between items-center">
       <Nav open={open} openSidebar={openSidebar} />
       <ul className="w-full h-full mt-3 overflow-y-scroll hide-scroll">
         {currChat?.map((currMessage, index) => (
@@ -49,7 +49,6 @@ const Main = ({
         <button
           onClick={getMessages}
           className="absolute right-16 bottom-2 md:right-32 lg:right-80 lg:mr-3"
-          // disabled={!online}
         >
           &#10146;
         </button>
