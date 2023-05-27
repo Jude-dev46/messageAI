@@ -1,23 +1,147 @@
-import logo from './logo.svg';
-import './App.css';
+import { useEffect, useState } from "react";
+import Main from "./components/Main";
+import Sidebar from "./components/Sidebar";
+import { useSelector, useDispatch } from "react-redux";
+import Auth from "./components/Auth";
+import { uiActions } from "./store/uislice";
+import Notification from "./components/Notification";
+import { Detector } from "react-detect-offline";
+import { message } from "antd";
+
+let info = message;
 
 function App() {
+  const dispatch = useDispatch();
+  const [message, setMessage] = useState(null);
+  const [value, setValue] = useState("");
+  const [prevChats, setPrevChats] = useState([]);
+  const [currTitle, setCurTitle] = useState(null);
+  const [isOpen, setIsOpen] = useState(false);
+
+  const isAuth = useSelector((state) => state.auth.isAuthenticated);
+  const notification = useSelector((state) => state.ui.notification);
+
+  const options = {
+    method: "POST",
+    body: JSON.stringify({
+      message: value,
+    }),
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const getMessages = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:8000/completions",
+        options
+      );
+
+      const data = await response.json();
+
+      setMessage(data.choices[0].message);
+    } catch (err) {
+      dispatch(
+        uiActions.setNotification({
+          status: "error",
+          title: "Error!",
+          message: "Error sending message",
+        })
+      );
+    }
+  };
+
+  useEffect(() => {
+    if (!currTitle && value && message) {
+      setCurTitle(value);
+    }
+
+    if (currTitle && value && message) {
+      setPrevChats((prevChats) => [
+        ...prevChats,
+        {
+          title: currTitle,
+          role: "user",
+          content: value,
+        },
+        {
+          title: currTitle,
+          role: message.role,
+          content: message.content,
+        },
+      ]);
+    }
+
+    // eslint-disable-next-line
+  }, [message, currTitle]);
+
+  const createNewChat = () => {
+    setMessage(null);
+    setCurTitle(null);
+    setValue("");
+  };
+
+  const currChat = prevChats.filter((prevChat) => prevChat.title === currTitle);
+  const uniqueTitle = Array.from(
+    new Set(prevChats.map((prevChat) => prevChat.title))
+  );
+
+  const handleClick = (uniqueTitle) => {
+    setCurTitle(uniqueTitle);
+    setMessage(null);
+    setValue("");
+  };
+
+  const openSidebar = () => {
+    setIsOpen(true);
+  };
+
+  const closeSidebar = () => {
+    setIsOpen(false);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="flex">
+      <div className="hidden">
+        <Detector
+          render={({ online }) => (
+            <div>
+              {online
+                ? `${info.success("Connected!")}`
+                : `${info.error("Please connect to the internet")}`}
+            </div>
+          )}
+        />
+      </div>
+      {notification && (
+        <Notification
+          status={notification.status}
+          title={notification.title}
+          content={notification.message}
+        />
+      )}
+      {!isAuth && <Auth />}
+      {isAuth && (
+        <Sidebar
+          createNewChat={createNewChat}
+          history={uniqueTitle}
+          click={handleClick}
+          open={isOpen}
+          close={closeSidebar}
+        />
+      )}
+      {isAuth && (
+        <Main
+          getMessages={getMessages}
+          value={value}
+          valueHandler={setValue}
+          currTitle={currTitle}
+          currChat={currChat}
+          openSidebar={openSidebar}
+          open={isOpen}
+        />
+      )}
     </div>
   );
 }
