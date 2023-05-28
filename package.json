@@ -24,7 +24,7 @@
   },
   "scripts": {
     "start:frontend": "react-scripts start",
-    "start:backend": "nodemon server.js",
+    "start:backend": "nodemon server.mjs",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
