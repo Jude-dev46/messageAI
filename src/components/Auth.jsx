@@ -20,7 +20,7 @@ const Auth = () => {
 
   return (
     <section className="bg-slate-950 h-screen md:h-auto text-white mx-auto flex flex-col items-center md:mt-20 p-20">
-      <div className="w-full flex flex-col items-center -mt-5 mb-8">
+      <div className="w-56 lg:w-full flex flex-col items-center -mt-5 mb-8">
         <h1 className="text-xl md:text-2xl font-sans">Welcome to MessageAI</h1>
         <p>Login to get started</p>
       </div>
