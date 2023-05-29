@@ -2,7 +2,7 @@ import { AiOutlineMenu } from "react-icons/ai";
 
 const Nav = ({ openSidebar }) => {
   return (
-    <div className="w-full h-8 flex items-center justify-evenly -ml-14 md:-ml-40 lg:ml-0">
+    <div className="w-full h-8 flex items-center justify-evenly -ml-24 md:-ml-40 lg:ml-0">
       <div className="mt-4 lg:hidden" onClick={() => openSidebar()}>
         <AiOutlineMenu size={24} color="#020617" />
       </div>
