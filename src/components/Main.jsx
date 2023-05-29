@@ -7,7 +7,6 @@ const Main = ({
   currChat,
   open,
   openSidebar,
-  online,
 }) => {
   return (
     <div className="relative w-full h-screen min-h-screen flex flex-col justify-between items-center">
