@@ -37,9 +37,15 @@ function App() {
       );
 
       const data = await response.json();
+      console.log(data);
+
+      if (data.choices[0].message === undefined) {
+        return;
+      }
 
       setMessage(data.choices[0].message);
     } catch (err) {
+      console.log("Error", err);
       dispatch(
         uiActions.setNotification({
           status: "error",
