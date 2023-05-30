@@ -5,7 +5,6 @@ import { useSelector, useDispatch } from "react-redux";
 import Auth from "./components/Auth";
 import { uiActions } from "./store/uislice";
 import Notification from "./components/Notification";
-
 import OfflineDetector from "./components/OfflineDetector";
 
 function App() {
