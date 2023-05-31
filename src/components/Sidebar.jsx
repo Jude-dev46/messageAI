@@ -6,7 +6,7 @@ const Sidebar = ({ createNewChat, history, click, open, close }) => {
     <div
       className={`${
         open ? "flex" : "hidden"
-      } bg-slate-950 text-white h-screen max-h-screen w-3/4 md:w-2/4 lg:w-1/4 lg:flex flex-col justify-between items-center z-10 ${
+      } bg-slate-950 text-white h-screen max-h-screen w-3/4 md:w-2/4 lg:w-1/4 lg:flex flex-col justify-between items-center z-10  ${
         open ? "absolute" : ""
       }`}
     >
