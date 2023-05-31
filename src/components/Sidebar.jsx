@@ -4,7 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 const Sidebar = ({ createNewChat, history, click, open, close }) => {
   return (
     <div
-      className={`relative ${
+      className={`${
         open ? "flex" : "hidden"
       } bg-slate-950 text-white h-screen max-h-screen w-3/4 md:w-2/4 lg:w-1/4 lg:flex flex-col justify-between items-center z-10  ${
         open ? "absolute" : ""
@@ -33,7 +33,7 @@ const Sidebar = ({ createNewChat, history, click, open, close }) => {
           </li>
         ))}
       </ul>
-      <footer className="absolute bottom-0 w-3/4 pt-2 mb-5 border-t-2 text-center">
+      <footer className="w-3/4 pt-2 mb-5 border-t-2 text-center">
         <p>&copy; Jude Olajumoke</p>
       </footer>
     </div>
