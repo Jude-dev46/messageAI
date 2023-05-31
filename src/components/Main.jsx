@@ -11,7 +11,7 @@ const Main = ({
   return (
     <div className="relative w-full h-screen max-h-screen flex flex-col justify-between items-center">
       <Nav open={open} openSidebar={openSidebar} />
-      <ul className="w-full h-full mt-3 overflow-y-scroll hide-scroll">
+      <ul className="w-full mt-3 overflow-y-scroll hide-scroll -mb-3">
         {currChat?.map((currMessage, index) => (
           <li
             key={index}
@@ -34,12 +34,12 @@ const Main = ({
           </li>
         ))}
       </ul>
-      <div className="flex flex-col items-center w-full mb-1">
+      <div className="absolute bottom-0 flex flex-col items-center w-full mb-1">
         <div className="relative w-full flex justify-center mb-2">
           <input
             placeholder="Send a message..."
             type="text"
-            className="w-3/4 lg:w-2/4 mt-1 block px-3 py-2 bg-white border rounded-md shadow-sm placeholder-slate-950"
+            className="w-3/4 lg:w-2/4 mt-1 block px-3 py-2 bg-white border rounded-md placeholder-slate-950 shadow-lg"
             value={value}
             onChange={(e) => {
               e.preventDefault();
