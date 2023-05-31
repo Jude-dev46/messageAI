@@ -105,7 +105,7 @@ function App() {
   };
 
   return (
-    <div className="flex">
+    <div className={`flex ${!isAuth ? "flex-col" : ""}`}>
       <div className="hidden">
         <OfflineDetector />
       </div>

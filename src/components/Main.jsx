@@ -39,7 +39,7 @@ const Main = ({
           <input
             placeholder="Send a message..."
             type="text"
-            className="w-3/4 lg:w-2/4 mt-1 block break-words px-3 py-2 bg-white border rounded-md shadow-sm placeholder-slate-950"
+            className="w-3/4 lg:w-2/4 mt-1 block px-3 py-2 bg-white border rounded-md shadow-sm placeholder-slate-950"
             value={value}
             onChange={(e) => {
               e.preventDefault();
@@ -48,7 +48,7 @@ const Main = ({
           />
           <button
             onClick={getMessages}
-            className="absolute right-16 bottom-2 md:right-32 lg:right-80 lg:mr-3"
+            className="absolute right-16 bottom-2 md:right-32 lg:right-80 lg:mr-3 hover:bg-slate-950 hover:px-1 hover:rounded-md hover:text-white"
           >
             &#10146;
           </button>

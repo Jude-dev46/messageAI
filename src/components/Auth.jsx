@@ -19,14 +19,14 @@ const Auth = () => {
   };
 
   return (
-    <section className="bg-slate-950 max-h-screen text-white mx-auto flex flex-col items-center md:mt-20 p-20">
+    <section className="bg-slate-950 max-h-screen text-white md:mx-auto flex flex-col items-center m-4 mt-24 md:mt-20 p-16">
       <div className="w-56 lg:w-full flex flex-col items-center -mt-5 mb-8">
         <h1 className="text-xl md:text-2xl font-sans">Welcome to MessageAI</h1>
         <p>Login to get started</p>
       </div>
       <form
         onSubmit={submitHandler}
-        className="flex flex-col gap-3 border rounded-md p-10 -ml-3"
+        className="flex flex-col gap-3 border rounded-md p-6"
       >
         <div className="flex flex-col gap-3 mb-5">
           <label htmlFor="Email" className="text-xl font-sans">
