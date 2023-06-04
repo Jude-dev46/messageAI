@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Main from "./components/Main";
 import Sidebar from "./components/Sidebar";
 import { useSelector, useDispatch } from "react-redux";
@@ -14,6 +14,7 @@ function App() {
   const [prevChats, setPrevChats] = useState([]);
   const [currTitle, setCurTitle] = useState(null);
   const [isOpen, setIsOpen] = useState(false);
+  const valueRef = useRef();
 
   const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const notification = useSelector((state) => state.ui.notification);
@@ -29,6 +30,8 @@ function App() {
   };
 
   const getMessages = async () => {
+    valueRef.current.value = "";
+
     try {
       const response = await fetch(
         "https://messageai-api.onrender.com/completions",
@@ -129,7 +132,7 @@ function App() {
       {isAuth && (
         <Main
           getMessages={getMessages}
-          value={value}
+          value={valueRef}
           valueHandler={setValue}
           currTitle={currTitle}
           currChat={currChat}
