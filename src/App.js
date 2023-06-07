@@ -6,6 +6,7 @@ import Auth from "./components/Auth";
 import { uiActions } from "./store/uislice";
 import Notification from "./components/Notification";
 import OfflineDetector from "./components/OfflineDetector";
+import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
   const dispatch = useDispatch();
@@ -16,7 +17,9 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const valueRef = useRef();
 
-  const isAuth = useSelector((state) => state.auth.isAuthenticated);
+  const { isAuthenticated } = useAuth0();
+
+  // const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const notification = useSelector((state) => state.ui.notification);
 
   const options = {
@@ -39,7 +42,6 @@ function App() {
       );
 
       const data = await response.json();
-      console.log(data);
 
       if (data.choices[0].message === undefined) {
         return;
@@ -108,7 +110,7 @@ function App() {
   };
 
   return (
-    <div className={`flex ${!isAuth ? "flex-col" : ""}`}>
+    <div className={`flex ${!isAuthenticated ? "flex-col" : ""}`}>
       <div className="hidden">
         <OfflineDetector />
       </div>
@@ -119,8 +121,9 @@ function App() {
           content={notification.message}
         />
       )}
-      {!isAuth && <Auth />}
-      {isAuth && (
+      {!isAuthenticated && <Auth />}
+
+      {isAuthenticated && (
         <Sidebar
           createNewChat={createNewChat}
           history={uniqueTitle}
@@ -129,7 +132,7 @@ function App() {
           close={closeSidebar}
         />
       )}
-      {isAuth && (
+      {isAuthenticated && (
         <Main
           getMessages={getMessages}
           value={valueRef}
