@@ -1,37 +1,61 @@
-import { useDispatch } from "react-redux";
-import { authActions } from "../store/auth";
-import { useAuth0 } from "@auth0/auth0-react";
+// import { useDispatch } from "react-redux";
+import Typewriter from "typewriter-effect";
+
+// import { authActions } from "../store/auth";
+import AuthForm from "./authContent/AuthForm";
+import Robot from "../assets/robot.png";
 
 const Auth = () => {
-  const dispatch = useDispatch();
-  const { loginWithRedirect, isLoading } = useAuth0();
+  // const dispatch = useDispatch();
 
-  const submitHandler = (e) => {
-    e.preventDefault();
+  const submitHandler = async (inputs) => {
+    console.log(inputs);
+    try {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputs),
+      };
 
-    loginWithRedirect();
+      const response = await fetch(
+        "https://messageai-api.onrender.com/signUp",
+        options
+      );
 
-    dispatch(authActions.login());
+      const data = await response.json();
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+
+    //   dispatch(authActions.login());
   };
 
   return (
-    <section className="bg-slate-950 max-h-screen text-white md:mx-auto flex flex-col items-center m-4 mt-24 md:mt-20 p-16 rounded-lg shadow-lg">
-      <div className="w-56 md:w-72 lg:w-full flex flex-col items-center -mt-5 mb-8">
-        <h1 className="text-xl md:text-2xl font-sans">Welcome to messageAI</h1>
-        <p>{isLoading ? "Logging you in" : "Login to get started"}</p>
+    <section className="bg-slate-950 h-fit lg:h-screen w-full px-5 py-10 text-white md:mx-auto flex flex-col lg:flex-row items-center justify-center shadow-lg">
+      <div className="w-full lg:w-1/2">
+        <img src={Robot} alt="robot by kjpargeter on freepik" />
       </div>
-      <form
-        onSubmit={submitHandler}
-        className="flex flex-col gap-3 border rounded-md px-10 py-6"
-      >
-        <button
-          className={`bg-white text-slate-950 px-8 py-2 rounded-md hover:bg-slate-800 hover:text-white ${
-            isLoading ? "disabled" : ""
-          }`}
-        >
-          {isLoading ? "Loading..." : "Login"}
-        </button>
-      </form>
+      <div className="w-full lg:w-1/2">
+        <div className="mb-5">
+          <p className="text-3xl">
+            <Typewriter
+              onInit={(typewriter) => {
+                typewriter
+                  .typeString("Hello👋, Welcome to messageAI")
+                  .pauseFor(1000)
+                  .deleteAll()
+                  .typeString("Your friendly AI chatbot!")
+                  .start();
+              }}
+            />
+          </p>
+          <p className="text-base">Sign up/Login to ask me anything</p>
+        </div>
+        <AuthForm onsubmit={submitHandler} />
+      </div>
     </section>
   );
 };

@@ -1,15 +1,16 @@
 import { useEffect, useRef, useState } from "react";
+
+import { useSelector, useDispatch } from "react-redux";
+import { uiActions } from "./store/uislice";
 import Main from "./components/Main";
 import Sidebar from "./components/Sidebar";
-import { useSelector, useDispatch } from "react-redux";
 import Auth from "./components/Auth";
-import { uiActions } from "./store/uislice";
 import Notification from "./components/Notification";
 import OfflineDetector from "./components/OfflineDetector";
-import { useAuth0 } from "@auth0/auth0-react";
 
 function App() {
   const dispatch = useDispatch();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [message, setMessage] = useState(null);
   const [value, setValue] = useState("");
   const [prevChats, setPrevChats] = useState([]);
@@ -17,9 +18,6 @@ function App() {
   const [isOpen, setIsOpen] = useState(false);
   const valueRef = useRef();
 
-  const { isAuthenticated } = useAuth0();
-
-  // const isAuth = useSelector((state) => state.auth.isAuthenticated);
   const notification = useSelector((state) => state.ui.notification);
 
   const options = {

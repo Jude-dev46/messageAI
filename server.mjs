@@ -12,6 +12,21 @@ app.use(cors());
 
 const API_KEY = process.env.API_KEY;
 
+app.post("/signUp", (req, res) => {
+  try {
+    const { email, confirmPassword, password, username } = req.body;
+    console.log(email, password, confirmPassword);
+
+    if (!email || !password || !username || !confirmPassword) {
+      return res
+        .status(400)
+        .json({ status: false, message: "Request body cannot be empty!" });
+    }
+  } catch (error) {
+    console.log("Error", error);
+  }
+});
+
 app.post("/completions", async (req, res) => {
   try {
     const gpt = await fetch("https://api.openai.com/v1/chat/completions", {
