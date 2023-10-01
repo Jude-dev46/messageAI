@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 
-const AuthForm = ({ isLogin, onsubmit }) => {
+const AuthForm = ({ isLogin, onsubmit, setLogin }) => {
   const userInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -17,16 +17,28 @@ const AuthForm = ({ isLogin, onsubmit }) => {
       confirmPassword: conPasswordInputRef.current.value,
     };
 
+    const emailIsValid = inputs.email.includes("@");
+    const usernameIsValid = inputs.username !== "";
+    const passwordIsValid = inputs.password.length > 6;
+    const confirmPasswordIsValid = inputs.confirmPassword.length > 6;
+
+    const passwordIsMatch = inputs.password === inputs.confirmPassword;
+
     if (
-      inputs.username === "" ||
-      !inputs.email.includes("@") ||
-      !inputs.password.length > 6 ||
-      !inputs.confirmPassword.length > 6
+      !emailIsValid ||
+      !usernameIsValid ||
+      !passwordIsValid ||
+      !confirmPasswordIsValid ||
+      !passwordIsMatch
     ) {
       alert("Invalid inputs!!!");
+    } else {
+      onsubmit(inputs);
     }
+  }
 
-    onsubmit(inputs);
+  function authStateHandler() {
+    setLogin(!isLogin);
   }
 
   return (
@@ -50,12 +62,14 @@ const AuthForm = ({ isLogin, onsubmit }) => {
           placeholder="Enter your password"
           value={passwordInputRef}
         />
-        <Input
-          label="Confirm Password"
-          type="password"
-          placeholder="Re-enter your password"
-          value={conPasswordInputRef}
-        />
+        {!isLogin && (
+          <Input
+            label="Confirm Password"
+            type="password"
+            placeholder="Re-enter your password"
+            value={conPasswordInputRef}
+          />
+        )}
       </div>
       <Button onClick={submitInputHandler}>
         {isLogin ? "Log in" : "Sign Up"}
@@ -65,9 +79,9 @@ const AuthForm = ({ isLogin, onsubmit }) => {
           Already registered?{" "}
           <span
             className="text-blue-700 cursor-pointer hover:text-blue-500"
-            onClick={() => console.log("Hi")}
+            onClick={authStateHandler}
           >
-            Login instead
+            {!isLogin ? "Login instead" : "Sign up"}
           </span>
         </p>
       </div>

@@ -1,3 +1,4 @@
+import { useState } from "react";
 // import { useDispatch } from "react-redux";
 import Typewriter from "typewriter-effect";
 
@@ -6,6 +7,7 @@ import AuthForm from "./authContent/AuthForm";
 import Robot from "../assets/robot.png";
 
 const Auth = () => {
+  const [isLogin, setIsLogin] = useState(false);
   // const dispatch = useDispatch();
 
   const submitHandler = async (inputs) => {
@@ -54,7 +56,11 @@ const Auth = () => {
           </p>
           <p className="text-base">Sign up/Login to ask me anything</p>
         </div>
-        <AuthForm onsubmit={submitHandler} />
+        <AuthForm
+          onsubmit={submitHandler}
+          isLogin={isLogin}
+          setLogin={setIsLogin}
+        />
       </div>
     </section>
   );
