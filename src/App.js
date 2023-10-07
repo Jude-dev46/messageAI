@@ -79,10 +79,12 @@ function App() {
 
     if (!accessToken) {
       dispatch(authActions.logOut());
+
+      return;
     }
 
     setAuthToken(accessToken);
-    const tokenData = JSON.parse(atob(accessToken.split(".")[1]));
+    const tokenData = JSON.parse(atob(accessToken?.split(".")[1]));
     const expirationTimeInSeconds = tokenData.exp;
     const currentTimeInSeconds = Math.floor(Date.now() / 1000);
 
