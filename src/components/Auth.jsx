@@ -64,19 +64,19 @@ const Auth = () => {
         <img src={Robot} alt="robot by kjpargeter on freepik" />
       </div>
       <div className="w-full lg:w-1/2">
-        <div className="mb-5">
-          <p className="text-3xl">
-            <Typewriter
-              onInit={(typewriter) => {
-                typewriter
-                  .typeString("Hello👋, Welcome to your friendly AI Chatbot!")
-                  .pauseFor(1000)
-                  .deleteAll()
-                  .typeString("MessageAI, human language model")
-                  .start();
-              }}
-            />
-          </p>
+        <div className="mb-5 text-3xl">
+          {/* <p className=""> */}
+          <Typewriter
+            onInit={(typewriter) => {
+              typewriter
+                .typeString("Hello👋, Welcome to your friendly AI Chatbot!")
+                .pauseFor(1000)
+                .deleteAll()
+                .typeString("MessageAI, human language model")
+                .start();
+            }}
+          />
+          {/* </p> */}
           <p className="text-base">Sign up/Login to ask me anything</p>
         </div>
         <AuthForm

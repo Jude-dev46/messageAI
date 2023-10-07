@@ -45,7 +45,6 @@ function App() {
       );
 
       const data = await response.json();
-      console.log(data);
 
       if (data.status === 403) {
         dispatch(uiActions.setIsModalOpen(true));
@@ -65,8 +64,6 @@ function App() {
 
       setMessage(data.choices[0].message);
     } catch (err) {
-      console.log("Error", err);
-
       dispatch(
         uiActions.setNotification({
           status: "error",
