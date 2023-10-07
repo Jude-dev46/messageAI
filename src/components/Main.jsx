@@ -1,13 +1,6 @@
 import Nav from "./Nav";
 
-const Main = ({
-  getMessages,
-  value,
-  valueHandler,
-  currChat,
-  open,
-  openSidebar,
-}) => {
+const Main = ({ getMessages, value, currChat, open, openSidebar }) => {
   return (
     <div className="relative w-full h-screen max-h-screen flex flex-col justify-between items-center">
       <Nav open={open} openSidebar={openSidebar} />
@@ -35,20 +28,18 @@ const Main = ({
         ))}
       </ul>
       <div className="flex flex-col items-center w-full mb-1">
-        <div className="relative w-full flex justify-center mb-2">
-          <input
+        <div className="relative w-fit flex justify-center mb-2">
+          <textarea
             placeholder="Send a message..."
             type="text"
-            className="w-3/4 lg:w-2/4 mt-1 block px-3 py-2 bg-white border rounded-md placeholder-slate-950 shadow-lg"
+            className="w-[300px]
+            md:w-[600px] h-fit mt-1 block px-3 py-2 bg-white border border-r-slate-950
+            rounded-md placeholder-slate-950 shadow-lg"
             ref={value}
-            onChange={(e) => {
-              e.preventDefault();
-              valueHandler(e.target.value);
-            }}
-          />
+          ></textarea>
           <button
             onClick={getMessages}
-            className="absolute right-16 bottom-2 md:right-32 lg:right-80 lg:mr-3 hover:bg-slate-950 hover:px-1 hover:rounded-md hover:text-white"
+            className="bg-slate-950 absolute right-2 lg:right-0 bottom-2 lg:mr-3 px-1 rounded-md text-white"
           >
             &#10146;
           </button>

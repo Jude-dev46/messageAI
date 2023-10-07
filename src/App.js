@@ -2,23 +2,27 @@ import { useEffect, useRef, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "./store/uislice";
+import { authActions } from "./store/auth";
 import Main from "./components/Main";
 import Sidebar from "./components/Sidebar";
 import Auth from "./components/Auth";
 import Notification from "./components/Notification";
 import OfflineDetector from "./components/OfflineDetector";
+import Modal from "./components/Modal";
 
 function App() {
   const dispatch = useDispatch();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [authToken, setAuthToken] = useState(null);
   const [message, setMessage] = useState(null);
   const [value, setValue] = useState("");
   const [prevChats, setPrevChats] = useState([]);
   const [currTitle, setCurTitle] = useState(null);
-  const [isOpen, setIsOpen] = useState(false);
   const valueRef = useRef();
 
   const notification = useSelector((state) => state.ui.notification);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const isOpen = useSelector((state) => state.ui.isOpen);
+  const isModalOpen = useSelector((state) => state.ui.isModalOpen);
 
   const options = {
     method: "POST",
@@ -26,6 +30,7 @@ function App() {
       message: value,
     }),
     headers: {
+      authorization: `Bearer ${authToken}`,
       "Content-Type": "application/json",
     },
   };
@@ -35,19 +40,33 @@ function App() {
 
     try {
       const response = await fetch(
-        "https://messageai-api.onrender.com/completions",
+        "http://localhost:8001/completions",
         options
       );
 
       const data = await response.json();
+      console.log(data);
 
-      if (data.choices[0].message === undefined) {
+      if (data.status === 403) {
+        dispatch(uiActions.setIsModalOpen(true));
+        return;
+      }
+
+      if (!data.choices) {
+        dispatch(
+          uiActions.setNotification({
+            status: "error",
+            title: "Error!",
+            message: "Error sending message",
+          })
+        );
         return;
       }
 
       setMessage(data.choices[0].message);
     } catch (err) {
       console.log("Error", err);
+
       dispatch(
         uiActions.setNotification({
           status: "error",
@@ -57,6 +76,25 @@ function App() {
       );
     }
   };
+
+  useEffect(() => {
+    const accessToken = localStorage.getItem("token");
+
+    if (!accessToken) {
+      dispatch(authActions.logOut());
+    }
+
+    setAuthToken(accessToken);
+    const tokenData = JSON.parse(atob(accessToken.split(".")[1]));
+    const expirationTimeInSeconds = tokenData.exp;
+    const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+
+    if (currentTimeInSeconds > expirationTimeInSeconds) {
+      dispatch(authActions.logOut());
+    } else {
+      dispatch(authActions.login());
+    }
+  }, [dispatch]);
 
   useEffect(() => {
     if (!currTitle && value && message) {
@@ -100,11 +138,15 @@ function App() {
   };
 
   const openSidebar = () => {
-    setIsOpen(true);
+    dispatch(uiActions.setIsOpen(true));
   };
 
   const closeSidebar = () => {
-    setIsOpen(false);
+    dispatch(uiActions.setIsOpen(false));
+  };
+
+  const closeModalHandler = () => {
+    dispatch(uiActions.setIsModalOpen(false));
   };
 
   return (
@@ -141,6 +183,7 @@ function App() {
           open={isOpen}
         />
       )}
+      {isModalOpen && <Modal closeModal={closeModalHandler} />}
     </div>
   );
 }

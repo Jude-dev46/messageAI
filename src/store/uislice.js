@@ -2,6 +2,8 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialUiState = {
   notification: null,
+  isOpen: false,
+  isModalOpen: false,
 };
 
 const uiSlice = createSlice({
@@ -14,6 +16,12 @@ const uiSlice = createSlice({
         title: action.payload.title,
         message: action.payload.message,
       };
+    },
+    setIsOpen(state, action) {
+      state.isOpen = action.payload;
+    },
+    setIsModalOpen(state, action) {
+      state.isModalOpen = action.payload;
     },
   },
 });

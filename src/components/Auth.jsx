@@ -1,17 +1,16 @@
 import { useState } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import Typewriter from "typewriter-effect";
 
-// import { authActions } from "../store/auth";
+import { authActions } from "../store/auth";
 import AuthForm from "./authContent/AuthForm";
 import Robot from "../assets/robot.png";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(false);
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
 
-  const submitHandler = async (inputs) => {
-    console.log(inputs);
+  const signUpHandler = async (inputs) => {
     try {
       const options = {
         method: "POST",
@@ -22,17 +21,41 @@ const Auth = () => {
       };
 
       const response = await fetch(
-        "https://messageai-api.onrender.com/signUp",
+        "http://localhost:8001/auth/signUp",
         options
       );
 
       const data = await response.json();
-      console.log(data);
+
+      if (data.status) {
+        setIsLogin(true);
+      }
     } catch (error) {
       console.log(error);
     }
+  };
 
-    //   dispatch(authActions.login());
+  const loginHandler = async (inputs) => {
+    try {
+      const options = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(inputs),
+      };
+
+      const response = await fetch("http://localhost:8001/auth/login", options);
+
+      const data = await response.json();
+
+      if (data.status) {
+        dispatch(authActions.login());
+        localStorage.setItem("token", data.token);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -46,10 +69,10 @@ const Auth = () => {
             <Typewriter
               onInit={(typewriter) => {
                 typewriter
-                  .typeString("Hello👋, Welcome to messageAI")
+                  .typeString("Hello👋, Welcome to your friendly AI Chatbot!")
                   .pauseFor(1000)
                   .deleteAll()
-                  .typeString("Your friendly AI chatbot!")
+                  .typeString("MessageAI, human language model")
                   .start();
               }}
             />
@@ -57,7 +80,8 @@ const Auth = () => {
           <p className="text-base">Sign up/Login to ask me anything</p>
         </div>
         <AuthForm
-          onsubmit={submitHandler}
+          onSignup={signUpHandler}
+          onlogin={loginHandler}
           isLogin={isLogin}
           setLogin={setIsLogin}
         />

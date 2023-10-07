@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import Input from "../UI/Input";
 import Button from "../UI/Button";
 
-const AuthForm = ({ isLogin, onsubmit, setLogin }) => {
+const AuthForm = ({ isLogin, onSignup, onlogin, setLogin }) => {
   const userInputRef = useRef();
   const emailInputRef = useRef();
   const passwordInputRef = useRef();
@@ -14,27 +14,48 @@ const AuthForm = ({ isLogin, onsubmit, setLogin }) => {
       username: userInputRef.current.value,
       email: emailInputRef.current.value,
       password: passwordInputRef.current.value,
-      confirmPassword: conPasswordInputRef.current.value,
+      confirmPassword: conPasswordInputRef.current?.value,
     };
 
-    const emailIsValid = inputs.email.includes("@");
-    const usernameIsValid = inputs.username !== "";
-    const passwordIsValid = inputs.password.length > 6;
-    const confirmPasswordIsValid = inputs.confirmPassword.length > 6;
+    const emailIsValid =
+      inputs.email.includes("@") && inputs.email.trim().length > 0;
+    const usernameIsValid =
+      inputs.username !== "" && inputs.username.trim().length > 0;
+    const passwordIsValid = inputs.password.trim().length > 6;
+    const confirmPasswordIsValid = inputs.confirmPassword?.trim().length > 6;
 
     const passwordIsMatch = inputs.password === inputs.confirmPassword;
 
-    if (
-      !emailIsValid ||
-      !usernameIsValid ||
-      !passwordIsValid ||
-      !confirmPasswordIsValid ||
-      !passwordIsMatch
-    ) {
-      alert("Invalid inputs!!!");
+    if (isLogin) {
+      if (!emailIsValid || !usernameIsValid || !passwordIsValid) {
+        alert("Invalid inputs!!!");
+      } else {
+        const inputObj = {
+          email: inputs.email,
+          username: inputs.username,
+          password: inputs.password,
+        };
+        onlogin(inputObj);
+      }
     } else {
-      onsubmit(inputs);
+      // Handle sign-up logic here if needed
+      if (
+        !emailIsValid ||
+        !usernameIsValid ||
+        !passwordIsValid ||
+        !confirmPasswordIsValid ||
+        !passwordIsMatch
+      ) {
+        alert("Invalid inputs!!!");
+      } else {
+        onSignup(inputs);
+      }
     }
+
+    userInputRef.current.value = "";
+    emailInputRef.current.value = "";
+    passwordInputRef.current.value = "";
+    inputs.confirmPassword = "";
   }
 
   function authStateHandler() {
