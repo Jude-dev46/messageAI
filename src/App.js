@@ -40,7 +40,7 @@ function App() {
 
     try {
       const response = await fetch(
-        "http://localhost:8001/completions",
+        "https://messageai-api.onrender.com/completions",
         options
       );
 

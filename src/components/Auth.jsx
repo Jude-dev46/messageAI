@@ -21,7 +21,7 @@ const Auth = () => {
       };
 
       const response = await fetch(
-        "http://localhost:8001/auth/signUp",
+        "https://messageai-api.onrender.com/auth/signUp",
         options
       );
 
@@ -45,7 +45,10 @@ const Auth = () => {
         body: JSON.stringify(inputs),
       };
 
-      const response = await fetch("http://localhost:8001/auth/login", options);
+      const response = await fetch(
+        "https://messageai-api.onrender.com/auth/login",
+        options
+      );
 
       const data = await response.json();
 
