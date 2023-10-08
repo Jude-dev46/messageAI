@@ -15,7 +15,7 @@ const Modal = ({ closeModal }) => {
   }
 
   return (
-    <div className="bg-[rgb(0,0,0,0.35)] absolute h-full w-full top-0 left-0 flex flex-col justify-center items-center overflow-hidden">
+    <div className="bg-[rgb(0,0,0,0.7)] fixed w-full h-screen top-0 left-0 flex flex-col justify-center items-center z-20 overflow-hidden">
       <div className="bg-white relative flex flex-col border rounded-lg p-3 z-10">
         {!isLoading && (
           <div

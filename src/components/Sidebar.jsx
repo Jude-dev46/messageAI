@@ -5,7 +5,7 @@ const Sidebar = ({ createNewChat, history, click, open, close }) => {
   return (
     <>
       <div
-        className={`hidden bg-slate-950 text-white max-h-screen w-3/4 md:w-1/4 lg:w-1/5 lg:flex flex-col justify-between items-center z-10 overflow-y-hidden`}
+        className={`hidden bg-slate-950 text-white h-screen w-3/4 md:w-1/4 lg:w-1/5 lg:flex flex-col justify-between items-center z-10 overflow-y-hidden`}
       >
         <div className="relative w-11/12 flex justify-center items-center">
           <button
@@ -42,7 +42,7 @@ const Sidebar = ({ createNewChat, history, click, open, close }) => {
       <div
         className={`${
           open ? "flex" : "hidden -translate-x-full"
-        } absolute bg-slate-950 text-white h-screen max-h-screen w-2/4 md:w-1/4 lg:hidden flex-col justify-between items-center z-10 transform transition-all! duration-500 ease-in-out! translate-x-0`}
+        } absolute bg-slate-950 text-white h-screen max-h-screen w-2/4 md:w-1/4 lg:hidden flex-col justify-between items-center z-10 transform transition-all duration-500 ease-in-out translate-x-0`}
       >
         <div className="relative w-11/12 flex justify-center items-center">
           <button

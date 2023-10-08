@@ -149,7 +149,7 @@ function App() {
   };
 
   return (
-    <div className={`flex ${!isAuthenticated ? "flex-col" : ""}`}>
+    <div className={`flex max-h-screen ${!isAuthenticated ? "flex-col" : ""}`}>
       <div className="hidden">
         <OfflineDetector />
       </div>
