@@ -2,9 +2,9 @@ import Nav from "./Nav";
 
 const Main = ({ getMessages, value, currChat, open, openSidebar }) => {
   return (
-    <div className="relative w-full h-screen max-h-screen flex flex-col justify-between items-center overflow-y-hidden">
+    <div className="relative w-full h-[100svh] max-h-[100svh] flex flex-col justify-between items-center overflow-y">
       <Nav open={open} openSidebar={openSidebar} />
-      <ul className="w-full h-[70vh] mt-3 overflow-y-scroll hide-scroll -mb-3">
+      <ul className="w-full h-full mt-3 overflow-y-scroll hide-scroll -mb-3">
         {currChat?.map((currMessage, index) => (
           <li
             key={index}
@@ -27,7 +27,7 @@ const Main = ({ getMessages, value, currChat, open, openSidebar }) => {
           </li>
         ))}
       </ul>
-      <div className="flex flex-col items-center w-full h-[20vh] mb-1">
+      <div className="flex flex-col items-center w-full mb-1">
         <div className="relative w-fit flex justify-center mb-2">
           <textarea
             placeholder="Send a message..."

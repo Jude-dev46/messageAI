@@ -42,9 +42,9 @@ const Sidebar = ({ createNewChat, history, click, open, close }) => {
       <div
         className={`${
           open ? "flex" : "hidden -translate-x-full"
-        } absolute bg-slate-950 text-white h-screen max-h-screen w-2/4 md:w-1/4 lg:hidden flex-col justify-between items-center z-10 transform transition-all duration-500 ease-in-out translate-x-0`}
+        } absolute bg-slate-950 text-white h-[100svh] w-2/4 md:w-1/4 lg:hidden flex-col justify-between items-center z-10 transform transition-all! duration-500 ease-in-out! translate-x-0`}
       >
-        <div className="relative w-11/12 h-[10vh] flex justify-center items-center">
+        <div className="relative w-11/12 flex justify-center items-center">
           <button
             onClick={createNewChat}
             className="w-3/4 border rounded-md px-18 py-2 mt-3"
@@ -58,7 +58,7 @@ const Sidebar = ({ createNewChat, history, click, open, close }) => {
             <AiOutlineClose size={32} color="#020617" />
           </div>
         </div>
-        <ul className="w-3/4 h-[80vh] m-2 p-2 overflow-y-scroll hide-scroll">
+        <ul className="w-3/4 h-full m-2 p-2 overflow-y-scroll hide-scroll">
           {history?.map((history, index) => (
             <li
               className="mb-2 py-2 list-none cursor-pointer flex items-center gap-3"
@@ -70,7 +70,7 @@ const Sidebar = ({ createNewChat, history, click, open, close }) => {
             </li>
           ))}
         </ul>
-        <footer className="w-3/4 h-[10vh] pt-2 mb-2 border-t-2 text-center">
+        <footer className="w-3/4 pt-2 mb-5 border-t-2 text-center">
           <p>&copy; Jude Olajumoke</p>
         </footer>
       </div>
