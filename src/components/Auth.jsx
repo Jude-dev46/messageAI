@@ -1,16 +1,22 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Typewriter from "typewriter-effect";
 
 import { authActions } from "../store/auth";
+import { uiActions } from "../store/uislice";
 import AuthForm from "./authContent/AuthForm";
 import Robot from "../assets/robot.png";
+import Modal from "./Modal";
 
 const Auth = () => {
   const [isLogin, setIsLogin] = useState(false);
   const dispatch = useDispatch();
 
+  const isLoading = useSelector((state) => state.ui.isLoading);
+
   const signUpHandler = async (inputs) => {
+    dispatch(uiActions.setIsLoading(true));
+
     try {
       const options = {
         method: "POST",
@@ -26,16 +32,18 @@ const Auth = () => {
       );
 
       const data = await response.json();
+      dispatch(uiActions.setIsLoading(false));
 
       if (data.status) {
         setIsLogin(true);
       }
     } catch (error) {
-      console.log(error);
+      dispatch(uiActions.setIsLoading(false));
     }
   };
 
   const loginHandler = async (inputs) => {
+    dispatch(uiActions.setIsLoading(true));
     try {
       const options = {
         method: "POST",
@@ -51,13 +59,14 @@ const Auth = () => {
       );
 
       const data = await response.json();
+      dispatch(uiActions.setIsLoading(false));
 
       if (data.status) {
         dispatch(authActions.login());
         localStorage.setItem("token", data.token);
       }
     } catch (error) {
-      console.log(error);
+      dispatch(uiActions.setIsLoading(false));
     }
   };
 
@@ -88,6 +97,7 @@ const Auth = () => {
           isLogin={isLogin}
           setLogin={setIsLogin}
         />
+        {isLoading && <Modal />}
       </div>
     </section>
   );

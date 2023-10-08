@@ -2,7 +2,7 @@ import Nav from "./Nav";
 
 const Main = ({ getMessages, value, currChat, open, openSidebar }) => {
   return (
-    <div className="relative w-full h-screen max-h-screen flex flex-col justify-between items-center">
+    <div className="relative w-full h-screen max-h-screen flex flex-col justify-between items-center overflow-y-hidden">
       <Nav open={open} openSidebar={openSidebar} />
       <ul className="w-full h-full mt-3 overflow-y-scroll hide-scroll -mb-3">
         {currChat?.map((currMessage, index) => (
