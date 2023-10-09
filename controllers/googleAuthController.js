@@ -10,7 +10,7 @@ passport.use(
     {
       clientID: clientID,
       clientSecret: secretKey,
-      callbackURL: "/auth/google/callback",
+      callbackURL: "https://messageai-api.onrender.com/auth/google/callback",
     },
     async (accessToken, refreshToken, profile, done) => {
       const user = {
