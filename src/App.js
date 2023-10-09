@@ -119,6 +119,18 @@ function App() {
     // eslint-disable-next-line
   }, [message, currTitle]);
 
+  // In your route component
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const authParam = urlParams.get("auth");
+
+    if (authParam === "success") {
+      dispatch(authActions.login());
+    } else {
+      dispatch(authActions.logOut());
+    }
+  }, [dispatch]);
+
   const createNewChat = () => {
     setMessage(null);
     setCurTitle(null);

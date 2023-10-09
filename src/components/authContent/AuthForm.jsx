@@ -62,9 +62,18 @@ const AuthForm = ({ isLogin, onSignup, onlogin, setLogin }) => {
     setLogin(!isLogin);
   }
 
+  async function googleAuthHandler() {
+    window.location.href = "https://messageai-api.onrender.com/auth/google";
+  }
+
   return (
     <div className="w-full">
       <div className="flex flex-col gap-6 mb-5">
+        {isLogin && (
+          <Button onClick={googleAuthHandler} isStyle={true}>
+            Login with google
+          </Button>
+        )}
         <Input
           label="Username"
           type="text"
@@ -95,7 +104,7 @@ const AuthForm = ({ isLogin, onSignup, onlogin, setLogin }) => {
       <Button onClick={submitInputHandler}>
         {isLogin ? "Log in" : "Sign Up"}
       </Button>
-      <div>
+      <div className="mt-2">
         <p>
           Already registered?{" "}
           <span

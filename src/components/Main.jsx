@@ -46,7 +46,7 @@ const Main = ({ getMessages, value, currChat, open, openSidebar }) => {
         </div>
         <p className="text-sm text-center mx-2">
           Free Research Preview. MessageAI is an AI chat web-app built with the
-          OpenAI API. Checkout ChatGPT May 12 Version
+          OpenAI API.
         </p>
       </div>
     </div>
