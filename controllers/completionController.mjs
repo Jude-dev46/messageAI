@@ -3,6 +3,7 @@ import fetch from "node-fetch";
 const API_KEY = process.env.API_KEY;
 
 const completionsController = async (req, res) => {
+  console.log(req.body.message);
   try {
     const gpt = await fetch("https://api.openai.com/v1/chat/completions", {
       method: "POST",
