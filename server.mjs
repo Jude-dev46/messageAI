@@ -8,7 +8,7 @@ import verifyJWT from "./middleware/verifyJWT.js";
 import InitiateMongoServer from "./config/db.js";
 import signupRoute from "./routes/signUp.js";
 import loginRoute from "./routes/loginRoute.js";
-import completionsRoute from "./routes/completions.js";
+import completionsRoute from "./routes/completions.mjs";
 import googleAuthRoute from "./routes/googleAuth.js";
 import "./controllers/googleAuthController.js";
 

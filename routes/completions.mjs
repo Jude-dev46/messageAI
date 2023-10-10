@@ -1,7 +1,7 @@
 import completionsController from "../controllers/completionController.mjs";
-const express = require("express");
+import express from "express";
 const router = express.Router();
 
 router.post("/", completionsController);
 
-module.exports = router;
+export default router;
