@@ -78,9 +78,7 @@ function App() {
     const accessToken = localStorage.getItem("token");
     console.log(accessToken);
 
-    if (!accessToken) {
-      dispatch(authActions.logOut());
-    } else {
+    if (accessToken) {
       setAuthToken(accessToken);
       const tokenData = JSON.parse(atob(accessToken?.split(".")[1]));
       const expirationTimeInSeconds = tokenData.exp;
@@ -97,9 +95,11 @@ function App() {
 
       if (authParam === "success") {
         dispatch(authActions.login());
-      } else {
+      } else if (authParam === "failed") {
         dispatch(authActions.logOut());
       }
+    } else {
+      dispatch(authActions.logOut());
     }
   }, [dispatch]);
 
