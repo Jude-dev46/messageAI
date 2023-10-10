@@ -25,8 +25,7 @@ function App() {
 
   const getMessages = async () => {
     const accessToken = localStorage.getItem("token");
-    console.log(accessToken);
-    console.log(valueRef.current.value);
+    console.log(value);
     valueRef.current.value = "";
 
     const options = {
