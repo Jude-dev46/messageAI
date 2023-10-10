@@ -25,6 +25,7 @@ function App() {
 
   const getMessages = async () => {
     const accessToken = localStorage.getItem("token");
+    setValue(valueRef.current.value);
     console.log(value);
     valueRef.current.value = "";
 
