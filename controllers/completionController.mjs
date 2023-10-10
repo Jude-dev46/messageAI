@@ -27,4 +27,4 @@ const completionsController = async (req, res) => {
   }
 };
 
-module.exports = completionsController;
+export default completionsController;
