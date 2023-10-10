@@ -12,7 +12,6 @@ import Modal from "./components/Modal";
 
 function App() {
   const dispatch = useDispatch();
-  const [authToken, setAuthToken] = useState(null);
   const [message, setMessage] = useState(null);
   const [value, setValue] = useState("");
   const [prevChats, setPrevChats] = useState([]);
@@ -24,19 +23,21 @@ function App() {
   const isOpen = useSelector((state) => state.ui.isOpen);
   const isModalOpen = useSelector((state) => state.ui.isModalOpen);
 
-  const options = {
-    method: "POST",
-    body: JSON.stringify({
-      message: value,
-    }),
-    headers: {
-      authorization: `Bearer ${authToken}`,
-      "Content-Type": "application/json",
-    },
-  };
-
   const getMessages = async () => {
     valueRef.current.value = "";
+
+    const accessToken = localStorage.getItem("token");
+
+    const options = {
+      method: "POST",
+      body: JSON.stringify({
+        message: value,
+      }),
+      headers: {
+        authorization: `Bearer ${accessToken}`,
+        "Content-Type": "application/json",
+      },
+    };
 
     try {
       const response = await fetch(
@@ -78,7 +79,6 @@ function App() {
     const accessToken = localStorage.getItem("token");
 
     if (accessToken) {
-      setAuthToken(accessToken);
       const tokenData = JSON.parse(atob(accessToken?.split(".")[1]));
       const expirationTimeInSeconds = tokenData.exp;
       const currentTimeInSeconds = Math.floor(Date.now() / 1000);
