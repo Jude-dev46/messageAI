@@ -42,7 +42,6 @@ const signUpController = async (req, res) => {
 const loginController = async (req, res) => {
   try {
     const { email, username, password } = req.body;
-    console.log(req.body);
 
     if (!email || !username || !password)
       return res.status(400).json({
