@@ -76,7 +76,6 @@ function App() {
 
   useEffect(() => {
     const accessToken = localStorage.getItem("token");
-    console.log(accessToken);
 
     if (accessToken) {
       setAuthToken(accessToken);
