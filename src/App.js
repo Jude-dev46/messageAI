@@ -79,28 +79,26 @@ function App() {
 
     if (!accessToken) {
       dispatch(authActions.logOut());
-
-      return;
-    }
-
-    setAuthToken(accessToken);
-    const tokenData = JSON.parse(atob(accessToken?.split(".")[1]));
-    const expirationTimeInSeconds = tokenData.exp;
-    const currentTimeInSeconds = Math.floor(Date.now() / 1000);
-
-    if (currentTimeInSeconds > expirationTimeInSeconds) {
-      dispatch(authActions.logOut());
     } else {
-      dispatch(authActions.login());
-    }
+      setAuthToken(accessToken);
+      const tokenData = JSON.parse(atob(accessToken?.split(".")[1]));
+      const expirationTimeInSeconds = tokenData.exp;
+      const currentTimeInSeconds = Math.floor(Date.now() / 1000);
 
-    const urlParams = new URLSearchParams(window.location.search);
-    const authParam = urlParams.get("auth");
+      if (currentTimeInSeconds > expirationTimeInSeconds) {
+        dispatch(authActions.logOut());
+      } else {
+        dispatch(authActions.login());
+      }
 
-    if (authParam === "success") {
-      dispatch(authActions.login());
-    } else {
-      dispatch(authActions.logOut());
+      const urlParams = new URLSearchParams(window.location.search);
+      const authParam = urlParams.get("auth");
+
+      if (authParam === "success") {
+        dispatch(authActions.login());
+      } else {
+        dispatch(authActions.logOut());
+      }
     }
   }, [dispatch]);
 
