@@ -25,14 +25,11 @@ function App() {
 
   const getMessages = async () => {
     const accessToken = localStorage.getItem("token");
-    setValue(valueRef.current.value);
-    console.log(value);
-    valueRef.current.value = "";
 
     const options = {
       method: "POST",
       body: JSON.stringify({
-        message: value,
+        message: valueRef.current.value,
       }),
       headers: {
         authorization: `Bearer ${accessToken}`,
@@ -65,6 +62,7 @@ function App() {
       }
 
       setMessage(data.choices[0].message);
+      valueRef.current.value = "";
     } catch (err) {
       dispatch(
         uiActions.setNotification({
