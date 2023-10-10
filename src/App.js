@@ -24,9 +24,10 @@ function App() {
   const isModalOpen = useSelector((state) => state.ui.isModalOpen);
 
   const getMessages = async () => {
-    valueRef.current.value = "";
-
     const accessToken = localStorage.getItem("token");
+    console.log(accessToken);
+    console.log(valueRef.current.value);
+    valueRef.current.value = "";
 
     const options = {
       method: "POST",
