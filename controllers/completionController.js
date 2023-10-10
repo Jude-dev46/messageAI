@@ -1,4 +1,4 @@
-const fetch = require("node-fetch");
+const fetch = require("node-fetch/src/index");
 const API_KEY = process.env.API_KEY;
 
 const completionsController = async (req, res) => {
