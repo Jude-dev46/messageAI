@@ -1,6 +1,7 @@
 {
   "name": "messageai",
   "version": "0.1.0",
+  "type": "module",
   "private": true,
   "dependencies": {
     "@auth0/auth0-react": "^2.1.0",
