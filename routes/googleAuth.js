@@ -12,7 +12,7 @@ router.get(
   passport.authenticate("google"),
   (req, res) => {
     const profile = req.user;
-    const accessToken = profile.accessToken;
+    const accessToken = profile.token;
 
     res.cookie("jwt", accessToken, {
       httpOnly: true,
@@ -20,10 +20,7 @@ router.get(
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    res.redirect(
-      "https://messageai.onrender.com?auth=success&data=" +
-        encodeURIComponent(accessToken)
-    );
+    res.redirect("https://messageai.onrender.com?auth=success");
   }
 );
 

@@ -96,11 +96,9 @@ function App() {
 
       const urlParams = new URLSearchParams(window.location.search);
       const authParam = urlParams.get("auth");
-      const dataParam = urlParams.get("data");
 
       if (authParam === "success") {
         dispatch(authActions.login());
-        localStorage.setItem("token", dataParam);
       } else if (authParam === "failed") {
         dispatch(authActions.logOut());
       }
