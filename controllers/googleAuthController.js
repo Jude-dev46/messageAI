@@ -16,19 +16,30 @@ passport.use(
     },
     async (accessToken, refreshToken, profile, done) => {
       const email = profile.email;
-      const existingUser = await User.findOne({ email });
+      let user;
 
-      const token = jwt.sign({ userId: existingUser.username }, SECRET_KEY, {
+      try {
+        user = await User.findOne({ email });
+      } catch (error) {
+        return done(error, null);
+      }
+
+      if (!user) {
+        // Handle the case when the user doesn't exist.
+        return done(null, null);
+      }
+
+      const token = jwt.sign({ userId: user.username }, SECRET_KEY, {
         expiresIn: "2h",
       });
 
-      const user = {
-        token,
-        refreshToken,
+      const updatedUser = {
+        token: token,
         ...profile,
       };
+      user.refreshToken = refreshToken;
 
-      return done(null, user);
+      return done(null, updatedUser);
     }
   )
 );
