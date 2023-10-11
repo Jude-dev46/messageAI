@@ -13,7 +13,6 @@ router.get(
   (req, res) => {
     const profile = req.user;
 
-    localStorage.setItem("token", profile.accessToken);
     res.cookie("jwt", profile.accessToken, {
       httpOnly: true,
       secure: true,

@@ -28,7 +28,9 @@ const Sidebar = ({ createNewChat, history, click, open, close }) => {
               key={index}
               onClick={() => click(history)}
             >
-              <AiOutlineMessage size={24} color="white" />
+              <div>
+                <AiOutlineMessage size={24} color="white" />
+              </div>
               {history}
             </li>
           ))}

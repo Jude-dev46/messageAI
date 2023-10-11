@@ -16,6 +16,7 @@ function App() {
   const [value, setValue] = useState("");
   const [prevChats, setPrevChats] = useState([]);
   const [currTitle, setCurTitle] = useState(null);
+  const [errorDispatched, setErrorDispatched] = useState(false);
   const valueRef = useRef();
 
   const notification = useSelector((state) => state.ui.notification);
@@ -24,12 +25,13 @@ function App() {
   const isModalOpen = useSelector((state) => state.ui.isModalOpen);
 
   const getMessages = async () => {
+    valueRef.current.value = "";
     const accessToken = localStorage.getItem("token");
 
     const options = {
       method: "POST",
       body: JSON.stringify({
-        message: valueRef.current.value,
+        message: value,
       }),
       headers: {
         authorization: `Bearer ${accessToken}`,
@@ -44,6 +46,7 @@ function App() {
       );
 
       const data = await response.json();
+      console.log(data);
 
       if (data.status === 403) {
         dispatch(uiActions.setIsModalOpen(true));
@@ -51,18 +54,20 @@ function App() {
       }
 
       if (!data.choices) {
-        dispatch(
-          uiActions.setNotification({
-            status: "error",
-            title: "Error!",
-            message: "Error sending message",
-          })
-        );
+        if (!errorDispatched) {
+          dispatch(
+            uiActions.setNotification({
+              status: "error",
+              title: "Error!",
+              message: "Error sending message",
+            })
+          );
+          setErrorDispatched(true);
+        }
         return;
       }
 
       setMessage(data.choices[0].message);
-      valueRef.current.value = "";
     } catch (err) {
       dispatch(
         uiActions.setNotification({

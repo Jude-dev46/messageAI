@@ -1,6 +1,13 @@
 import Nav from "./Nav";
 
-const Main = ({ getMessages, value, currChat, open, openSidebar }) => {
+const Main = ({
+  getMessages,
+  value,
+  currChat,
+  open,
+  openSidebar,
+  valueHandler,
+}) => {
   return (
     <div className="relative w-full h-[100svh] max-h-[100svh] flex flex-col justify-between items-center overflow-y">
       <Nav open={open} openSidebar={openSidebar} />
@@ -36,6 +43,9 @@ const Main = ({ getMessages, value, currChat, open, openSidebar }) => {
             md:w-[600px] h-fit mt-1 block px-3 py-2 bg-white border border-r-slate-950
             rounded-md placeholder-slate-950 shadow-lg"
             ref={value}
+            onChange={(e) => {
+              valueHandler(e.target.value);
+            }}
           ></textarea>
           <button
             onClick={getMessages}
