@@ -83,7 +83,7 @@ function App() {
     const accessToken = localStorage.getItem("token");
 
     if (accessToken) {
-      const tokenData = JSON.parse(atob(accessToken?.split(".")[1]));
+      const tokenData = JSON.parse(atob(accessToken.split(".")[1]));
       const expirationTimeInSeconds = tokenData.exp;
       const currentTimeInSeconds = Math.floor(Date.now() / 1000);
 
@@ -95,9 +95,11 @@ function App() {
 
       const urlParams = new URLSearchParams(window.location.search);
       const authParam = urlParams.get("auth");
+      const dataParam = urlParams.get("data");
 
       if (authParam === "success") {
         dispatch(authActions.login());
+        localStorage.setItem("token", dataParam);
       } else if (authParam === "failed") {
         dispatch(authActions.logOut());
       }
