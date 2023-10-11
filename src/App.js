@@ -81,6 +81,7 @@ function App() {
   };
 
   useEffect(() => {
+    localStorage.removeItem("token");
     const accessToken = localStorage.getItem("token");
 
     if (accessToken) {
