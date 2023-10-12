@@ -16,6 +16,7 @@ function App() {
   const [value, setValue] = useState("");
   const [prevChats, setPrevChats] = useState([]);
   const [currTitle, setCurTitle] = useState(null);
+  const [isSending, setIsSending] = useState(false);
   const [errorDispatched, setErrorDispatched] = useState(false);
   const valueRef = useRef();
 
@@ -26,6 +27,7 @@ function App() {
 
   const getMessages = async () => {
     valueRef.current.value = "";
+    setIsSending(true);
     const accessToken = localStorage.getItem("token");
 
     const options = {
@@ -46,6 +48,7 @@ function App() {
       );
 
       const data = await response.json();
+      setIsSending(false);
 
       if (data.status === 403) {
         dispatch(uiActions.setIsModalOpen(true));
@@ -188,6 +191,7 @@ function App() {
           valueHandler={setValue}
           currTitle={currTitle}
           currChat={currChat}
+          isSending={isSending}
           openSidebar={openSidebar}
           open={isOpen}
         />

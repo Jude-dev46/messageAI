@@ -4,14 +4,27 @@ const Main = ({
   getMessages,
   value,
   currChat,
+  isSending,
   open,
   openSidebar,
   valueHandler,
 }) => {
+  console.log(isSending);
   return (
     <div className="relative w-full h-[100svh] max-h-[100svh] flex flex-col justify-between items-center overflow-y">
       <Nav open={open} openSidebar={openSidebar} />
-      <ul className="w-full h-full mt-3 overflow-y-scroll hide-scroll -mb-3">
+      <ul className="w-full h-full mt-1 overflow-y-scroll hide-scroll -mb-3">
+        {isSending && (
+          <li
+            className={`
+           bg-white
+            flex items-center gap-8 p-5 pl-5 md:pl-20
+           text-slate-950 animate-pulse
+            `}
+          >
+            |
+          </li>
+        )}
         {currChat?.map((currMessage, index) => (
           <li
             key={index}
@@ -22,7 +35,7 @@ const Main = ({
             }`}
           >
             <p
-              className={`border p-2 px-4 rounded-full ${
+              className={`border p-2 px-4 rounded-full self-start ${
                 currMessage.role === "user" ? "bg-slate-950" : "bg-white"
               } ${
                 currMessage.role === "user" ? "text-white" : "text-slate-950"
