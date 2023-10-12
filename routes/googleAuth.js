@@ -12,15 +12,20 @@ router.get(
   passport.authenticate("google"),
   (req, res) => {
     const profile = req.user;
-    const accessToken = profile.token;
 
-    res.cookie("jwt", accessToken, {
-      httpOnly: true,
-      secure: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
+    if (!profile) {
+      res.redirect("https://messageai.onrender.com?auth=failed");
+    } else {
+      const accessToken = profile.token;
 
-    res.redirect("https://messageai.onrender.com?auth=success");
+      res.cookie("jwt", accessToken, {
+        httpOnly: true,
+        secure: true,
+        maxAge: 24 * 60 * 60 * 1000,
+      });
+
+      res.redirect("https://messageai.onrender.com?auth=success");
+    }
   }
 );
 
