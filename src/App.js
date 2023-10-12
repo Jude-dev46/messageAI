@@ -98,6 +98,7 @@ function App() {
         if (currentTimeInSeconds > expirationTimeInSeconds) {
           dispatch(authActions.logOut());
         } else {
+          console.log("IN");
           dispatch(authActions.login());
         }
       } else {
