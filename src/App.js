@@ -85,27 +85,23 @@ function App() {
     const authParam = urlParams.get("auth");
     const dataParam = urlParams.get("data");
 
-    if (authParam !== "failed") {
+    if (accessToken && authParam !== "failed") {
+      const tokenData = JSON.parse(atob(accessToken.split(".")[1]));
+      const expirationTimeInSeconds = tokenData.exp;
+      const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+
+      if (currentTimeInSeconds > expirationTimeInSeconds) {
+        dispatch(authActions.logOut());
+      } else {
+        dispatch(authActions.login());
+      }
+    } else {
       if (dataParam !== null) {
         localStorage.setItem("token", dataParam);
-      }
-
-      if (accessToken) {
-        const tokenData = JSON.parse(atob(accessToken.split(".")[1]));
-        const expirationTimeInSeconds = tokenData.exp;
-        const currentTimeInSeconds = Math.floor(Date.now() / 1000);
-
-        if (currentTimeInSeconds > expirationTimeInSeconds) {
-          dispatch(authActions.logOut());
-        } else {
-          console.log("IN");
-          dispatch(authActions.login());
-        }
+        dispatch(authActions.login());
       } else {
         dispatch(authActions.logOut());
       }
-    } else {
-      dispatch(authActions.logOut());
     }
   }, [dispatch]);
 
