@@ -23,7 +23,7 @@ const completionsController = async (req, res) => {
     const response = await gpt.json();
     res.send(response);
   } catch (error) {
-    console.log(error);
+    throw new Error(error);
   }
 };
 

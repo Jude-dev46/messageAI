@@ -12,7 +12,7 @@ const InitiateMongoServer = async () => {
     });
     console.log("Connected to DB!!!");
   } catch (error) {
-    console.log("Error!", error);
+    throw new Error(error);
   }
 };
 

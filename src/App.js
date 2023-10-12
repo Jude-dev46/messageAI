@@ -27,7 +27,6 @@ function App() {
   const getMessages = async () => {
     valueRef.current.value = "";
     const accessToken = localStorage.getItem("token");
-    console.log(accessToken);
 
     const options = {
       method: "POST",
@@ -47,7 +46,6 @@ function App() {
       );
 
       const data = await response.json();
-      console.log(data);
 
       if (data.status === 403) {
         dispatch(uiActions.setIsModalOpen(true));
@@ -83,23 +81,24 @@ function App() {
   useEffect(() => {
     const accessToken = localStorage.getItem("token");
 
-    if (accessToken) {
-      const tokenData = JSON.parse(atob(accessToken.split(".")[1]));
-      const expirationTimeInSeconds = tokenData.exp;
-      const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+    const urlParams = new URLSearchParams(window.location.search);
+    const authParam = urlParams.get("auth");
+    const dataParam = urlParams.get("data");
 
-      if (currentTimeInSeconds > expirationTimeInSeconds) {
-        dispatch(authActions.logOut());
+    if (authParam !== "failed") {
+      localStorage.setItem("token", dataParam);
+
+      if (accessToken) {
+        const tokenData = JSON.parse(atob(accessToken.split(".")[1]));
+        const expirationTimeInSeconds = tokenData.exp;
+        const currentTimeInSeconds = Math.floor(Date.now() / 1000);
+
+        if (currentTimeInSeconds > expirationTimeInSeconds) {
+          dispatch(authActions.logOut());
+        } else {
+          dispatch(authActions.login());
+        }
       } else {
-        dispatch(authActions.login());
-      }
-
-      const urlParams = new URLSearchParams(window.location.search);
-      const authParam = urlParams.get("auth");
-
-      if (authParam === "success") {
-        dispatch(authActions.login());
-      } else if (authParam === "failed") {
         dispatch(authActions.logOut());
       }
     } else {

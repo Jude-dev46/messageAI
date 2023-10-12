@@ -34,7 +34,6 @@ const signUpController = async (req, res) => {
         .json({ status: true, message: "User successfully registered!" });
     }
   } catch (error) {
-    console.log("Error", error);
     res.sendStatus(500);
   }
 };
@@ -94,7 +93,6 @@ const loginController = async (req, res) => {
       username: username,
     });
   } catch (error) {
-    console.log(error);
     res.sendStatus(500);
   }
 };
