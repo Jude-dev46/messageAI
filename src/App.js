@@ -79,6 +79,7 @@ function App() {
   };
 
   useEffect(() => {
+    localStorage.removeItem("token");
     const accessToken = localStorage.getItem("token");
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -86,7 +87,9 @@ function App() {
     const dataParam = urlParams.get("data");
 
     if (authParam !== "failed") {
-      localStorage.setItem("token", dataParam);
+      if (dataParam !== null) {
+        localStorage.setItem("token", dataParam);
+      }
 
       if (accessToken) {
         const tokenData = JSON.parse(atob(accessToken.split(".")[1]));
