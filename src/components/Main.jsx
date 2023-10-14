@@ -1,6 +1,9 @@
+import { MdError } from "react-icons/md";
+
 import Nav from "./Nav";
 
 const Main = ({
+  error,
   getMessages,
   value,
   currChat,
@@ -9,22 +12,11 @@ const Main = ({
   openSidebar,
   valueHandler,
 }) => {
-  console.log(isSending);
+  console.log(error);
   return (
     <div className="relative w-full h-[100svh] max-h-[100svh] flex flex-col justify-between items-center overflow-y">
       <Nav open={open} openSidebar={openSidebar} />
       <ul className="w-full h-full mt-1 overflow-y-scroll hide-scroll -mb-3">
-        {isSending && (
-          <li
-            className={`
-           bg-white
-            flex items-center gap-8 p-5 pl-5 md:pl-20
-           text-slate-950 animate-pulse
-            `}
-          >
-            |
-          </li>
-        )}
         {currChat?.map((currMessage, index) => (
           <li
             key={index}
@@ -46,6 +38,29 @@ const Main = ({
             <p className="w-full">{currMessage.content}</p>
           </li>
         ))}
+        {isSending && (
+          <li
+            className={`
+           bg-white
+            flex items-center gap-8 p-5 pl-5 md:pl-20
+           text-slate-950
+            `}
+          >
+            <p className="animate-ping">|</p>
+          </li>
+        )}
+        {error && (
+          <li
+            className={`
+           bg-white
+            flex items-center gap-8 p-5 pl-5 md:pl-20
+           text-slate-950
+            `}
+          >
+            <MdError size={24} color="red" />
+            <p className="text-red">Could not process your message</p>
+          </li>
+        )}
       </ul>
       <div className="flex flex-col items-center w-full mb-1">
         <div className="relative w-fit flex justify-center mb-2">

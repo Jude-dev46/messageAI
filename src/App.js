@@ -17,7 +17,7 @@ function App() {
   const [prevChats, setPrevChats] = useState([]);
   const [currTitle, setCurTitle] = useState(null);
   const [isSending, setIsSending] = useState(false);
-  const [errorDispatched, setErrorDispatched] = useState(false);
+  const [isError, setIsError] = useState(false);
   const valueRef = useRef();
 
   const notification = useSelector((state) => state.ui.notification);
@@ -26,58 +26,45 @@ function App() {
   const isModalOpen = useSelector((state) => state.ui.isModalOpen);
 
   const getMessages = async () => {
-    valueRef.current.value = "";
-    setIsSending(true);
-    const accessToken = localStorage.getItem("token");
+    if (valueRef.current.value === "") {
+      setIsError(true);
+    } else {
+      valueRef.current.value = "";
+      setIsSending(true);
+      setIsError(false);
 
-    const options = {
-      method: "POST",
-      body: JSON.stringify({
-        message: value,
-      }),
-      headers: {
-        authorization: `Bearer ${accessToken}`,
-        "Content-Type": "application/json",
-      },
-    };
+      const accessToken = localStorage.getItem("token");
 
-    try {
-      const response = await fetch(
-        "https://messageai-api.onrender.com/completions",
-        options
-      );
+      const options = {
+        method: "POST",
+        body: JSON.stringify({
+          message: value,
+        }),
+        headers: {
+          authorization: `Bearer ${accessToken}`,
+          "Content-Type": "application/json",
+        },
+      };
 
-      const data = await response.json();
-      setIsSending(false);
+      try {
+        const response = await fetch(
+          "https://messageai-api.onrender.com/completions",
+          options
+        );
 
-      if (data.status === 403) {
-        dispatch(uiActions.setIsModalOpen(true));
-        return;
-      }
+        const data = await response.json();
+        setIsSending(false);
 
-      if (!data.choices) {
-        if (!errorDispatched) {
-          dispatch(
-            uiActions.setNotification({
-              status: "error",
-              title: "Error!",
-              message: "Error sending message",
-            })
-          );
-          setErrorDispatched(true);
+        if (data.status === 403) {
+          dispatch(uiActions.setIsModalOpen(true));
+          return;
         }
-        return;
-      }
 
-      setMessage(data.choices[0].message);
-    } catch (err) {
-      dispatch(
-        uiActions.setNotification({
-          status: "error",
-          title: "Error!",
-          message: "Error sending message",
-        })
-      );
+        setMessage(data.choices[0].message);
+      } catch (err) {
+        console.log(err);
+        setIsError(true);
+      }
     }
   };
 
@@ -186,6 +173,7 @@ function App() {
       )}
       {isAuthenticated && (
         <Main
+          error={isError}
           getMessages={getMessages}
           value={valueRef}
           valueHandler={setValue}
