@@ -62,7 +62,6 @@ function App() {
 
         setMessage(data.choices[0].message);
       } catch (err) {
-        console.log(err);
         setIsError(true);
       }
     }
