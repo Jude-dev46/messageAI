@@ -121,6 +121,7 @@ function App() {
   const createNewChat = () => {
     setMessage(null);
     setCurTitle(null);
+    setIsSending(false);
     setValue("");
   };
 
