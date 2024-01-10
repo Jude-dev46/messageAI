@@ -32,12 +32,14 @@ const Auth = () => {
       );
 
       const data = await response.json();
+      console.log(data);
       dispatch(uiActions.setIsLoading(false));
 
       if (data.status) {
         setIsLogin(true);
       }
     } catch (error) {
+      console.log(error);
       dispatch(uiActions.setIsLoading(false));
     }
   };

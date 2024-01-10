@@ -3,6 +3,8 @@ import express from "express";
 import dotenv from "dotenv";
 import passport from "passport";
 import session from "express-session";
+import mongoose from "mongoose";
+import MongoStore from "connect-mongo";
 
 import verifyJWT from "./middleware/verifyJWT.js";
 import InitiateMongoServer from "./config/db.js";
@@ -21,21 +23,28 @@ app.use(
   cors({ origin: ["https://messageai.onrender.com", "http://localhost:3000"] })
 );
 
-InitiateMongoServer();
+InitiateMongoServer().then(() => {
+  const secret_key = process.env.PASSPORT_KEY;
+  const store = MongoStore(session);
 
-const secret_key = process.env.PASSPORT_KEY;
+  app.use(
+    session({
+      secret: `${secret_key}`,
+      resave: false,
+      saveUninitialized: true,
+      store: new store({ mongooseConnection: mongoose.connection }),
+      cookie: { maxAge: 1000 * 60 * 60 * 24 },
+    })
+  );
+  app.use(passport.initialize());
+  app.use(passport.session());
 
-app.use(
-  session({ secret: `${secret_key}`, resave: false, saveUninitialized: true })
-);
-app.use(passport.initialize());
-app.use(passport.session());
+  app.use("/auth/signUp", signupRoute);
+  app.use("/auth/login", loginRoute);
+  app.use("/", googleAuthRoute);
 
-app.use("/auth/signUp", signupRoute);
-app.use("/auth/login", loginRoute);
-app.use("/", googleAuthRoute);
+  app.use(verifyJWT);
+  app.use("/completions", completionsRoute);
 
-app.use(verifyJWT);
-app.use("/completions", completionsRoute);
-
-app.listen(PORT, () => console.log("Your server is running on port " + PORT));
+  app.listen(PORT, () => console.log("Your server is running on port " + PORT));
+});
