@@ -34,7 +34,11 @@ const signUpController = async (req, res) => {
         .json({ status: true, message: "User successfully registered!" });
     }
   } catch (error) {
-    res.sendStatus(500);
+    res.status(500).json({
+      status: false,
+      message: "Could not access server!",
+      error: error,
+    });
   }
 };
 
@@ -93,7 +97,11 @@ const loginController = async (req, res) => {
       username: username,
     });
   } catch (error) {
-    res.sendStatus(500);
+    res.status(500).json({
+      status: false,
+      message: "Could not access server!",
+      error: error,
+    });
   }
 };
 

@@ -32,14 +32,14 @@ const Auth = () => {
       );
 
       const data = await response.json();
-      console.log(data);
       dispatch(uiActions.setIsLoading(false));
 
       if (data.status) {
         setIsLogin(true);
+      } else {
+        throw Error(data.message);
       }
     } catch (error) {
-      console.log(error);
       dispatch(uiActions.setIsLoading(false));
     }
   };
@@ -66,6 +66,8 @@ const Auth = () => {
       if (data.status) {
         dispatch(authActions.login());
         localStorage.setItem("token", data.token);
+      } else {
+        throw Error(data.message);
       }
     } catch (error) {
       dispatch(uiActions.setIsLoading(false));
