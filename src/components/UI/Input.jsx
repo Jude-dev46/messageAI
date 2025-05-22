@@ -2,8 +2,8 @@ import React from "react";
 
 const Input = ({ label, placeholder, type, value, isValid }) => {
   return (
-    <div>
-      <p className={`${isValid ? "text-red" : "text-white"} text-xl mb-2`}>
+    <div className="w-full flex flex-col items-center">
+      <p className={`${isValid ? "text-red" : "text-white"} self-start lg:ml-32 text-xl mb-2`}>
         {label}
       </p>
       <input

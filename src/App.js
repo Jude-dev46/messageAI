@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import Swal from "sweetalert2";
 
 import { useSelector, useDispatch } from "react-redux";
 import { uiActions } from "./store/uislice";
@@ -27,6 +28,12 @@ function App() {
 
   const getMessages = async () => {
     if (valueRef.current.value === "") {
+      Swal.fire({
+        title: "Error!",
+        text: "Please enter a message",
+        icon: "error",
+        confirmButtonText: "OK",
+      });
       setIsError(true);
     } else {
       valueRef.current.value = "";
@@ -60,7 +67,7 @@ function App() {
           return;
         }
 
-        setMessage(data.choices[0].message);
+        setMessage(data.message);
       } catch (err) {
         setIsError(true);
       }
@@ -95,11 +102,11 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!currTitle && value && message) {
+    if (!currTitle && value) {
       setCurTitle(value);
     }
 
-    if (currTitle && value && message) {
+    if (currTitle && message) {
       setPrevChats((prevChats) => [
         ...prevChats,
         {
@@ -109,8 +116,8 @@ function App() {
         },
         {
           title: currTitle,
-          role: message.role,
-          content: message.content,
+          role: "assistant",
+          content: message,
         },
       ]);
     }

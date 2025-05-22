@@ -12,6 +12,7 @@ const Main = ({
   openSidebar,
   valueHandler,
 }) => {
+  console.log(currChat)
   return (
     <div className="relative w-full h-[100svh] max-h-[100svh] flex flex-col justify-between items-center overflow-y">
       <Nav open={open} openSidebar={openSidebar} />

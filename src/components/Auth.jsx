@@ -5,7 +5,7 @@ import Typewriter from "typewriter-effect";
 import { authActions } from "../store/auth";
 import { uiActions } from "../store/uislice";
 import AuthForm from "./authContent/AuthForm";
-import Robot from "../assets/robot.png";
+import Swal from "sweetalert2";
 import Modal from "./Modal";
 
 const Auth = () => {
@@ -25,7 +25,7 @@ const Auth = () => {
         },
         body: JSON.stringify(inputs),
       };
-
+      
       const response = await fetch(
         "https://messageai-api.onrender.com/auth/signUp",
         options
@@ -33,13 +33,16 @@ const Auth = () => {
 
       const data = await response.json();
       dispatch(uiActions.setIsLoading(false));
+      
 
       if (data.status) {
         setIsLogin(true);
       } else {
+        Swal.fire({title: "Error!", text: data.message, icon: "error", confirmButtonText: "OK"});
         throw Error(data.message);
       }
     } catch (error) {
+      Swal.fire({title: "Error!", text: error.message, icon: "error", confirmButtonText: "OK"});
       dispatch(uiActions.setIsLoading(false));
     }
   };
@@ -55,6 +58,7 @@ const Auth = () => {
         body: JSON.stringify(inputs),
       };
 
+      
       const response = await fetch(
         "https://messageai-api.onrender.com/auth/login",
         options
@@ -67,21 +71,19 @@ const Auth = () => {
         dispatch(authActions.login());
         localStorage.setItem("token", data.token);
       } else {
+        Swal.fire({title: "Error!", text: data.message, icon: "error", confirmButtonText: "OK"});
         throw Error(data.message);
       }
     } catch (error) {
+      Swal.fire({title: "Error!", text: error.message, icon: "error", confirmButtonText: "OK"});
       dispatch(uiActions.setIsLoading(false));
     }
   };
 
   return (
-    <section className="bg-slate-950 h-fit lg:h-screen w-full px-5 py-10 text-white md:mx-auto flex flex-col lg:flex-row items-center justify-center shadow-lg">
-      <div className="w-full lg:w-1/2">
-        <img src={Robot} alt="robot by kjpargeter on freepik" />
-      </div>
-      <div className="w-full lg:w-1/2">
+    <section className="bg-slate-950 h-screen lg:h-screen w-full px-5 py-10 text-white flex items-center justify-center shadow-lg">
+      <div className="w-full lg:w-1/2 flex flex-col items-center">
         <div className="mb-5 text-3xl">
-          {/* <p className=""> */}
           <Typewriter
             onInit={(typewriter) => {
               typewriter
@@ -92,7 +94,6 @@ const Auth = () => {
                 .start();
             }}
           />
-          {/* </p> */}
           <p className="text-base">Sign up/Login to ask me anything</p>
         </div>
         <AuthForm

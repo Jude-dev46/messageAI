@@ -21,7 +21,7 @@ const dbUrl = process.env.DATABASE_URL;
 
 app.use(express.json());
 app.use(
-  cors({ origin: ["https://messageai.onrender.com", "http://localhost:3000"] })
+  cors({ origin: ["https://messageai.onrender.com", "http://localhost:3002"] })
 );
 
 InitiateMongoServer()

@@ -26,6 +26,7 @@ const signUpController = async (req, res) => {
         email: email,
         username: username,
         password: hashPassword,
+        prompts: 0,
       });
 
       await newUser.save();
@@ -70,7 +71,7 @@ const loginController = async (req, res) => {
         .json({ status: false, message: "Incorrect Password" });
     }
 
-    const token = jwt.sign({ userId: existingUser.username }, SECRET_KEY, {
+    const token = jwt.sign({ userId: existingUser.email }, SECRET_KEY, {
       expiresIn: "2h",
     });
 

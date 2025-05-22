@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import Swal from "sweetalert2";
 
 import Input from "../UI/Input";
 import Button from "../UI/Button";
@@ -28,7 +29,7 @@ const AuthForm = ({ isLogin, onSignup, onlogin, setLogin }) => {
 
     if (isLogin) {
       if (!emailIsValid || !usernameIsValid || !passwordIsValid) {
-        alert("Invalid inputs!!!");
+        Swal.fire({title: "Error!", text: "Invalid inputs!", icon: "error", confirmButtonText: "OK", timer: 2000});
       } else {
         const inputObj = {
           email: inputs.email,
@@ -38,7 +39,6 @@ const AuthForm = ({ isLogin, onSignup, onlogin, setLogin }) => {
         onlogin(inputObj);
       }
     } else {
-      // Handle sign-up logic here if needed
       if (
         !emailIsValid ||
         !usernameIsValid ||
@@ -46,7 +46,7 @@ const AuthForm = ({ isLogin, onSignup, onlogin, setLogin }) => {
         !confirmPasswordIsValid ||
         !passwordIsMatch
       ) {
-        alert("Invalid inputs!!!");
+        Swal.fire({title: "Error!", text: "Invalid inputs!", icon: "error", confirmButtonText: "OK", timer: 2000});
       } else {
         onSignup(inputs);
       }
@@ -67,8 +67,8 @@ const AuthForm = ({ isLogin, onSignup, onlogin, setLogin }) => {
   }
 
   return (
-    <div className="w-full">
-      <div className="flex flex-col gap-6 mb-5">
+    <div className="w-full flex flex-col items-center">
+      <div className="w-full lg:w-4/5 flex flex-col items-center gap-6 mb-5">
         {isLogin && (
           <Button onClick={googleAuthHandler} isStyle={true}>
             Login with google
@@ -101,9 +101,11 @@ const AuthForm = ({ isLogin, onSignup, onlogin, setLogin }) => {
           />
         )}
       </div>
+      <div className="w-full lg:w-4/5 flex justify-center">
       <Button onClick={submitInputHandler}>
         {isLogin ? "Log in" : "Sign Up"}
       </Button>
+      </div>
       <div className="mt-2">
         <p>
           Already registered?{" "}

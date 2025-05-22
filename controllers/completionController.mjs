@@ -1,28 +1,31 @@
-import fetch from "node-fetch";
+import Openai from "openai";
+
+import User from "../model/user.js";
 
 const API_KEY = process.env.API_KEY;
+const client = new Openai({ apiKey: API_KEY });
 
 const completionsController = async (req, res) => {
   try {
-    const gpt = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${API_KEY}`,
-        "Content-type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "user",
-            content: req.body.message,
-          },
-        ],
-      }),
+    const foundUser = await User.findOne({ email: req.user });
+    if (foundUser.prompts >= 5) {
+      return res.status(400).json({
+        status: false,
+        message: "You have reached the maximum number of prompts!",
+      });
+    }
+
+    const response = await client.responses.create({
+      model: "gpt-4",
+      input: req.body.message,
     });
-    const response = await gpt.json();
-    res.send(response);
+
+    foundUser.prompts += 1;
+    await foundUser.save();
+
+    res.json({ status: true, message: response.output_text });
   } catch (error) {
+    console.log(error);
     throw new Error(error);
   }
 };
