@@ -32,6 +32,7 @@ const Auth = () => {
       );
 
       const data = await response.json();
+      console.log(data);
       dispatch(uiActions.setIsLoading(false));
       
 

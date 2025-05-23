@@ -27,6 +27,7 @@ const signUpController = async (req, res) => {
         username: username,
         password: hashPassword,
         prompts: 0,
+        refreshToken: "",
       });
 
       await newUser.save();

@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-  refreshToken: { type: String, required: false, unique: true },
+  refreshToken: { type: String, required: false, unique: false },
   username: { type: String, required: true, unique: true },
   email: { type: String, required: true, unique: true },
   prompts: { type: Number, default: 0 },
