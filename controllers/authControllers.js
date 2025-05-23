@@ -35,6 +35,7 @@ const signUpController = async (req, res) => {
         .json({ status: true, message: "User successfully registered!" });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       status: false,
       message: "Could not access server!",
